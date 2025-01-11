@@ -1,6 +1,7 @@
 # Raport z projektu o Formule 1
 
 06-DUMAUI0 2024/SZ
+
 Autor: *Wojciech Grzybowski*
 
 ## Cel projektu
