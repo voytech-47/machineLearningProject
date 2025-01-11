@@ -38,3 +38,71 @@ W projekcie zastosowano 4 modele - 2 modele do problemu klasyfikacji, oraz 2 mod
 	1. regresja liniowa
 	2. regresja wielomianowa
 
+### Problem klasyfikacji
+
+Dla problemu klasyfikacji zastosowano 2 modele sieci neuronowych - jeden prostszy, a drugi bardziej zaawansowany, składający się z większej ilości warstw konwolucyjnych. Modele prezentują się następująco:
+
+```python
+def create_simple_model():  
+    model = Sequential([  
+        Conv2D(32, (3, 3), activation='relu', input_shape=(250, 250, 3)),  
+        MaxPooling2D((2, 2)),  
+        Conv2D(32, (3, 3), activation='relu'),  
+        MaxPooling2D((2, 2)),  
+        Flatten(),  
+        Dense(128, activation='relu'),  
+        Dropout(0.5),  
+        Dense(number_of_classes, activation='softmax')
+    ])  
+      
+    model.compile(loss=CategoricalCrossentropy(), optimizer="adam")
+      
+    return model  
+  
+def create_advanced_model():  
+    model = Sequential([  
+    Conv2D(32, (3, 3), activation='relu', input_shape=(250, 250, 3)),  
+    MaxPooling2D((2, 2)),  
+    Conv2D(64, (3, 3), activation='relu'),  
+    MaxPooling2D((2, 2)),  
+    Conv2D(128, (3, 3), activation='relu'),  
+    MaxPooling2D((2, 2)),  
+    Flatten(),  
+    Dense(256, activation='relu'),  
+    Dropout(0.5),  
+    Dense(number_of_classes, activation='softmax')  
+    ])  
+      
+    model.compile(loss=CategoricalCrossentropy(), optimizer="adam")
+      
+    return model
+```
+
+## Ewaluacje
+
+Do ewaluacji wykorzystano metryki *accuracy, precision, recall* oraz *F-score*.
+
+### Problem klasyfikacji
+
+Dla wielkości wsadu 32 oraz dla 3 epok, otrzymano następujące rezultaty:
+
+| **Model**                  | **Accuracy** | **Precision** | **Recall** | **F-score** |
+| -------------------------- | ------------ | ------------- | ---------- | ----------- |
+| Prosta sieć neuronowa      | 0.9147       | 0.9879        | 0.8747     | 0.9278      |
+| Rozbudowana sieć neuronowa | 0.9813       | 0.9813        | 0.9813     | 0.9813      |
+
+### Problem regresji
+
+## Wnioski
+
+### Problem klasyfikacji
+
+Dla problemu klasyfikacji, zastosowanie bardziej rozbudowanego modelu pozwoliło na zwiększenie dokładności kosztem dłuższego czasu uczenia. Dla tak prostego zbioru danych (niezbyt złożona grafika na białym tle), lepiej wybrać pierwszy model i zwiększyć liczbę epok.
+
+Co ciekawe, podczas dostosowywania modelu, dla pewnej konfiguracji _confusion matrix_ wyglądało następująco: ![confusion_matrix.png](confusion_matrix.png)
+
+Praktycznie wszystkie zespoły były "odgadywane" prawidłowo, oprócz zespołu Alpine - ten potrafił być mylony z zespołem Williamsa. Spójrzmy na loga obu tych zespołów:
+
+![alpine_williams.png](alpine_williams.png)
+
+Oba z nich mają niebieski kolor oraz ostre kąty, co tłumaczy pomyłki modelu dla tych dwóch zespołów. Po zastosowaniu poprawek co do definicji modelu, mylenie tych dwóch zespołów zanikło.
