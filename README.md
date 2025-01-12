@@ -17,11 +17,11 @@ Celem projektu było stworzenie dwóch modeli:
 Dla cechy 1. należy wykorzystać stosunek zwycięstw do liczby wyścigów, ponieważ sezony mogą mieć różną liczbę wyścigów, co naturalnie implikuje tą samą zależność dla cechy 2.
 
 ## Dane
-Dane dla problemu klasyfikacji pochodzą ze strony Google Grafika (logo każdego zespołu). Z pierwotnych zdjęć utworzono sztuczny zbiór, generując duplikaty oryginalnego logo, które mają nałożony losowy obrót od 0 do 360 stopni. W ten sposób utworzony został zbiór mający 2500 przykładów (250 zdjęć dla każdego z 10 zespołów)
+Dane dla problemu 1. pochodzą ze strony Google Grafika (logo każdego zespołu). Z pierwotnych zdjęć utworzono sztuczny zbiór, generując duplikaty oryginalnego logo, które mają nałożony losowy obrót od 0 do 360 stopni. W ten sposób utworzony został zbiór mający 2500 przykładów (250 zdjęć dla każdego z 10 zespołów)
 
-Dane dla problemu regresji pochodzą ze strony kaggle.com: https://www.kaggle.com/datasets/cjgdev/formula-1-race-data-19502017
+Dane dla problemu 2. pochodzą ze strony kaggle.com: https://www.kaggle.com/datasets/cjgdev/formula-1-race-data-19502017
 
-Aby przygotować dane do uczenia dla problemu regresji należało:
+Aby przygotować dane do uczenia dla problemu 2. należało:
 1. Odrzucić kolumny, które nie wnoszą wartościowych informacji (takich jak numer kierowcy, liczba punktów, czas wyścigu itd.),
 2. Pliki *races* oraz *results* należało połączyć za pomocą kolumny *raceId*, aby określić, z którego roku pochodzi dany rezultat. W ten sposób można policzyć wszystkie statystyki w każdym z sezonów osobno, ponieważ kierowcy mogą brać udział w więcej niż jednym sezonie. Za pomocą pętli for, która inkrementuje od 1950 do 2018, wybieram tylko te wiersze, które wartość *year* mają równą ze zmienną sterującą, aby brać pod uwagę wyniki tylko z jednego sezonu.
 3. Zliczenie średniej z pozycji na starcie oraz pozycji na mecie, a następnie pogrupowanie tych wyników według unikalnego id kierowcy *driverId*,
@@ -31,16 +31,16 @@ Aby przygotować dane do uczenia dla problemu regresji należało:
 Przed usunięciem wartości NaN, kompletny zbiór danych przygotowanych do uczenia składa się z 3059 wierszy. Po selekcji, liczba wierszy to 540.
 
 ## Modele
-W projekcie zastosowano 4 modele - 2 modele do problemu klasyfikacji, oraz 2 modele do problemu regresji:
-1. Problem klasyfikacji - rozpoznawanie obrazu
-	1. sieci neuronowe - różne konfiguracje
-2. Problem regresji - przewidywanie wyniku mistrzostw na podstawie 4 cech
-	1. regresja liniowa
-	2. regresja wielomianowa
+W projekcie zastosowano 4 modele:
+1. Rozpoznawanie obrazu
+	1. sieci neuronowe - różne konfiguracje warstw ukrytych
+2. Przewidywanie wyniku mistrzostw na podstawie 4 cech
+	1. regresja logistyczna - z regularyzacją oraz bez
+	
 
-### Problem klasyfikacji
+### Rozpoznawanie obrazu
 
-Dla problemu klasyfikacji zastosowano 2 modele sieci neuronowych - jeden prostszy, a drugi bardziej zaawansowany, składający się z większej ilości warstw konwolucyjnych. Modele prezentują się następująco:
+Dla problemu rozpoznawania obrazu zastosowano 2 modele sieci neuronowych - jeden prostszy, a drugi bardziej zaawansowany, składający się z większej ilości warstw konwolucyjnych. Modele prezentują się następująco:
 
 ```python
 def create_simple_model():  
@@ -82,7 +82,7 @@ def create_advanced_model():
 
 Do ewaluacji wykorzystano metryki *accuracy, precision, recall* oraz *F-score*.
 
-### Problem klasyfikacji
+### Rozpoznawanie obrazu
 
 Dla wielkości wsadu 32 oraz dla 3 epok, otrzymano następujące rezultaty:
 
@@ -95,11 +95,11 @@ Dla wielkości wsadu 32 oraz dla 3 epok, otrzymano następujące rezultaty:
 
 ## Wnioski
 
-### Problem klasyfikacji
+### Rozpoznawanie obrazu
 
-Dla problemu klasyfikacji, zastosowanie bardziej rozbudowanego modelu pozwoliło na zwiększenie dokładności kosztem dłuższego czasu uczenia. Dla tak prostego zbioru danych (niezbyt złożona grafika na białym tle), lepiej wybrać pierwszy model i zwiększyć liczbę epok.
+Dla rozpoznawania obrazu, zastosowanie bardziej rozbudowanego modelu pozwoliło na zwiększenie dokładności kosztem dłuższego czasu uczenia. Dla tak prostego zbioru danych (niezbyt złożona grafika na białym tle), lepiej wybrać pierwszy model i zwiększyć liczbę epok.
 
-Co ciekawe, podczas dostosowywania modelu, dla pewnej konfiguracji _confusion matrix_ wyglądało następująco: ![confusion_matrix.png](confusion_matrix.png)
+Co ciekawe, podczas dostosowywania modelu, dla pewnej konfiguracji, _confusion matrix_ wyglądało następująco: ![confusion_matrix.png](confusion_matrix.png)
 
 Praktycznie wszystkie zespoły były "odgadywane" prawidłowo, oprócz zespołu Alpine - ten potrafił być mylony z zespołem Williamsa. Spójrzmy na loga obu tych zespołów:
 
