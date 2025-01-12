@@ -69,16 +69,16 @@ def create_simple_model():
     
 def create_advanced_model():    
     model = Sequential([    
-    Conv2D(32, (3, 3), activation='relu', input_shape=(250, 250, 3)),    
-    MaxPooling2D((2, 2)),    
-    Conv2D(64, (3, 3), activation='relu'),    
-    MaxPooling2D((2, 2)),    
-    Conv2D(128, (3, 3), activation='relu'),    
-    MaxPooling2D((2, 2)),    
-    Flatten(),    
-    Dense(256, activation='relu'),    
-    Dropout(0.5),    
-    Dense(number_of_classes, activation='softmax')    
+      Conv2D(32, (3, 3), activation='relu', input_shape=(250, 250, 3)),    
+      MaxPooling2D((2, 2)),    
+      Conv2D(64, (3, 3), activation='relu'),    
+      MaxPooling2D((2, 2)),    
+      Conv2D(128, (3, 3), activation='relu'),    
+      MaxPooling2D((2, 2)),    
+      Flatten(),    
+      Dense(256, activation='relu'),    
+      Dropout(0.5),    
+      Dense(number_of_classes, activation='softmax')    
     ])    
         
     model.compile(loss=CategoricalCrossentropy(), optimizer="adam")  
