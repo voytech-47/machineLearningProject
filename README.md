@@ -1,3 +1,11 @@
+# PRZED URUCHOMIENIEM PROJEKTU
+
+Dane wykorzystane do uczenia modeli muszą być prawidłowo przygotowane - do tego służą pliki *create_dataset.ipynb* oraz *result_prediction_data_prep.ipynb*. 
+
+Pierwszy z nich generuje syntetyczny zbiór danych służący do nauczenia sieci neuronowej, wykorzystanej do rozpoznawania obrazu, a drugi przygotowuje dane (szczegóły w sekcji "[Dane](#Dane)") do uczenia modelu regresji logistycznej, wykorzystanej do przewidywania wyniku mistrzostw. 
+
+Oba te pliki muszą zostać uruchomione przed przystąpieniem do uczenia modeli.
+
 # Raport z projektu o Formule 1  
   
 06-DUMAUI0 2024/SZ  
@@ -8,7 +16,7 @@ Autor: *Wojciech Grzybowski*
 Celem projektu było stworzenie dwóch modeli:  
   
 1. Przewiduje nazwę zespołu na podstawie zdjęcia logo (sieci neuronowe),  
-2. Przewiduje pozycje końcową w klasyfikacji generalnej na podstawie następujących cech:  
+2. Przewiduje wygranie mistrzostwa (wartość 0/1) w sezonie na podstawie następujących cech:  
     1. Średnia pozycja końcowa w wyścigu w sezonie,  
     2. Średnia pozycja końcowa w kwalifikacjach w sezonie,  
     3. % zwycięstw w sezonie względem liczby wyścigów,  
